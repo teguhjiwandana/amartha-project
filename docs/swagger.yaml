@@ -1,0 +1,137 @@
+basePath: /
+definitions:
+  models.Billing:
+    properties:
+      currentWeeks:
+        type: integer
+      id:
+        type: integer
+      interestRate:
+        type: number
+      loanAmount:
+        type: number
+      outstandingAmount:
+        type: number
+      paymentHistory:
+        description: Track payments (true=paid, false=missed)
+        items:
+          type: boolean
+        type: array
+      totalAmountDue:
+        type: number
+      totalWeeks:
+        type: integer
+      weeklyInstallment:
+        type: number
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: This is a loan billing system API.
+  title: Loan Billing API
+  version: "1.0"
+paths:
+  /loans/{id}/delinquent:
+    get:
+      consumes:
+      - application/json
+      description: Check if a loan is delinquent
+      parameters:
+      - description: Loan ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Check IsDelinquent
+      tags:
+      - Loans
+  /loans/{id}/move-weeks:
+    post:
+      consumes:
+      - application/json
+      description: Move to next week
+      parameters:
+      - description: Loan ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Move to next week
+      tags:
+      - Loans
+  /loans/{id}/outstanding:
+    get:
+      consumes:
+      - application/json
+      description: Get remaining balance of a loan
+      parameters:
+      - description: Loan ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get outstanding amount
+      tags:
+      - Loans
+  /loans/{id}/pay:
+    post:
+      consumes:
+      - application/json
+      description: Record a payment
+      parameters:
+      - description: Loan ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Make a payment
+      tags:
+      - Loans
+  /loans/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a new loan with a fixed schedule
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Billing'
+      summary: Create a loan
+      tags:
+      - Loans
+swagger: "2.0"

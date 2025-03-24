@@ -1,0 +1,206 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a loan billing system API.",
+        "title": "Loan Billing API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "paths": {
+        "/loans/create": {
+            "post": {
+                "description": "Create a new loan with a fixed schedule",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Loans"
+                ],
+                "summary": "Create a loan",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Billing"
+                        }
+                    }
+                }
+            }
+        },
+        "/loans/{id}/delinquent": {
+            "get": {
+                "description": "Check if a loan is delinquent",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Loans"
+                ],
+                "summary": "Check IsDelinquent",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Loan ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/loans/{id}/move-weeks": {
+            "post": {
+                "description": "Move to next week",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Loans"
+                ],
+                "summary": "Move to next week",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Loan ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/loans/{id}/outstanding": {
+            "get": {
+                "description": "Get remaining balance of a loan",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Loans"
+                ],
+                "summary": "Get outstanding amount",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Loan ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/loans/{id}/pay": {
+            "post": {
+                "description": "Record a payment",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Loans"
+                ],
+                "summary": "Make a payment",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Loan ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.Billing": {
+            "type": "object",
+            "properties": {
+                "currentWeeks": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "interestRate": {
+                    "type": "number"
+                },
+                "loanAmount": {
+                    "type": "number"
+                },
+                "outstandingAmount": {
+                    "type": "number"
+                },
+                "paymentHistory": {
+                    "description": "Track payments (true=paid, false=missed)",
+                    "type": "array",
+                    "items": {
+                        "type": "boolean"
+                    }
+                },
+                "totalAmountDue": {
+                    "type": "number"
+                },
+                "totalWeeks": {
+                    "type": "integer"
+                },
+                "weeklyInstallment": {
+                    "type": "number"
+                }
+            }
+        }
+    }
+}
